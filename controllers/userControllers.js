@@ -90,6 +90,7 @@ export const handleLogin = async (req, res, next) => {
 
     res.cookie("sid", session.id, {
       httpOnly: true,
+      sameSite:"lax",
       signed: true,
       secure: true,
       maxAge: 1000 * 60 * 60 * 24 * 7
