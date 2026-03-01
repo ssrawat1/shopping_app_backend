@@ -71,26 +71,32 @@ This ensures a seamless shopping experience without losing user data.
 ---
 
 ## 📂 Project Structure
-shop_client/
-│
-├── app/
-│   ├── (auth)/
-│   │   ├── login/
-│   │   └── register/
-│   ├── (cart-items)/cart/
-│   ├── (product-detail)/
+
+```
+shop_client
+├── app
+│   ├── (auth)
+│   │   ├── login
+│   │   └── register
+│   │
+│   ├── (cart-items)
+│   │   └── cart
+│   │
+│   ├── (product-detail)
+│   │
+│   ├── layout.js
+│   ├── page.js
 │   ├── error.js
 │   ├── global-error.js
-│   ├── layout.js
-│   ├── not-found.js
-│   └── page.js
+│   └── not-found.js
 │
-├── components/        # Reusable UI components
-├── context/           # Global state management
-├── modal/             # Modal components
-├── apis/              # API integration logic
-├── utils/             # Utility functions
-├── validator/         # Input validation logic
-├── public/            # Static assets
+├── components
+├── context
+├── modal
+├── apis
+├── utils
+├── validator
+├── public
 ├── next.config.mjs
 └── README.md
+```
