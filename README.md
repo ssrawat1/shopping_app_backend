@@ -73,30 +73,36 @@ This ensures a seamless shopping experience without losing user data.
 ## 📂 Project Structure
 
 ```
-shop_client
-├── app
-│   ├── (auth)
-│   │   ├── login
-│   │   └── register
-│   │
-│   ├── (cart-items)
-│   │   └── cart
-│   │
-│   ├── (product-detail)
-│   │
-│   ├── layout.js
-│   ├── page.js
-│   ├── error.js
-│   ├── global-error.js
-│   └── not-found.js
-│
-├── components
-├── context
-├── modal
-├── apis
+shop_server
+├── config
+│ ├── db.js
+│ └── setup.js
+├── controllers
+│ ├── authController.js
+│ ├── cartController.js
+│ ├── productController.js
+│ └── userController.js
+├── middlewares
+│ ├── validateId.js
+├── models
+│ ├── cartModel.js
+│ ├── otpModel.js
+│ ├── productModel.js
+│ ├── sessionModel.js
+│ └── userModel.js
+├── routes
+│ ├── authRoutes.js
+│ ├── cartRoutes.js
+│ ├── productRoutes.js
+│ └── userRoutes.js
+├── services
+│ ├── sendOtp.js
 ├── utils
-├── validator
-├── public
-├── next.config.mjs
-└── README.md
+│ └── rateLimiter.js
+│ └── throttle.js
+├── validators
+│ └── validate.js
+├── app.js
+├── package.json
+└── .env
 ```
