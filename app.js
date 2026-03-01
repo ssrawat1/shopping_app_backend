@@ -16,6 +16,19 @@ await connectDb()
 await loadProducts()
 
 /* Cors Enable: */
+const allowedOrigins = [process.env.CLIENT_URL, 'http://localhost:3000'];
+
+app.use(cors({
+  origin: (origin, callback) => {
+    if (allowedOrigins.includes(origin)) {
+      callback(null, origin);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
+  credentials: true
+}));
+
 app.use(cors({
   origin: (origin, callback) => {
     console.log({ origin })
