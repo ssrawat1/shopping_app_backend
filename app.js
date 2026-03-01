@@ -33,7 +33,7 @@ app.use(cors({
   origin: (origin, callback) => {
     console.log({ origin })
     if (origin === process.env.CLIENT_URL) {
-      callback(null, origin)
+      callback(null, true)
     } else {
       callback(new Error('Not allowed by CORS'));
     }
@@ -78,7 +78,7 @@ app.use((err, req, res, next) => {
   if (err.code === 11000) {
     return res.status(409).json({ success: false, error: "Email Already Exist" })
   }
-  res.status(err?.status || 500).json({ error: err || "Something went wrong" })
+  res.status(err.status || 500).json({ error: err.message || "Something went wrong" })
 })
 
 /* Server listening route: */
