@@ -17,7 +17,14 @@ await loadProducts()
 
 /* Cors Enable: */
 app.use(cors({
-  origin: process.env.CLIENT_URL,
+  origin: (origin, callback) => {
+    console.log({ origin })
+    if (origin === process.env.CLIENT_URL) {
+      callback(null, origin)
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
   credentials: true
 }))
 
@@ -33,6 +40,14 @@ app.use(express.json())
 app.use("/products", productRoutes)
 
 /*  */
+app.get(['/', '/health'], (req, res) => {
+  return res.status(200).json({
+    service: 'Shopee API',
+    status: 'ok',
+    version: '1.0.0',
+    timestamp: new Date().toISOString(),
+  });
+});
 
 /* Users Route specific middleware */
 app.use("/user", userRoutes)
