@@ -1,8 +1,7 @@
 import mongoose from "mongoose";
 
 /* DB connection URL */
-const CONNECTION_URL = 'mongodb://sanjay:vicktoria@localhost:27017/shopeeApp?replicaSet=myReplicaSet&authSource=admin';
-
+const CONNECTION_URL = process.env.MONGO_DB_URL;
 
 /* Making connection with MongoDB server */
 export async function connectDb() {

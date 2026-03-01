@@ -15,7 +15,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node --watch --env-file-if-exists=.env app.js",
-    "setup": "node ./config/setup.js"
+    "setup": "node --env-file-if-exists=.env ./config/setup.js"
   },
   "keywords": [],
   "author": "",
