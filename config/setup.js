@@ -10,7 +10,7 @@ const dbSchema = [
     [command]: "users",
     validator: {
       $jsonSchema: {
-        required: ["_id,name,email,password"],
+        required: ["_id", "name", "email", "password"],
         bsonType: "object",
         properties: {
           _id: {
@@ -24,19 +24,19 @@ const dbSchema = [
           email: {
             bsonType: "string",
             pattern: /^[a-zA-Z0-9._-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/,
-          description: "Please provide a valid email address"
+            description: "Please provide a valid email address"
+          },
+          password: {
+            bsonType: "string",
+            pattern: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&#^()_+=\-{}\[\]:;"'<>,.\/\\|`~])[A-Za-z\d@$!%*?&#^()_+=\-{}\[\]:;"'<>,.\/\\|`~]{8,}$/,
+            description: "Password must contain at least 8 characters, one uppercase, one lowercase, one number, and one special character"
+          }
         },
-        password: {
-          bsonType: "string",
-          pattern: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&#^()_+=\-{}\[\]:;"'<>,.\/\\|`~])[A-Za-z\d@$!%*?&#^()_+=\-{}\[\]:;"'<>,.\/\\|`~]{8,}$/,
-          description: "Password must contain at least 8 characters, one uppercase, one lowercase, one number, and one special character"
-        }
-      },
-      additionalProperties: false, // ensure only the filed in the schema are allowed
-    }
-  },
-  validationAction: "error", // if validation failed then decide the operation should succeed or not
-  validationLevel: "strict"// decide when validation should apply to the document while insertion and updation
+        additionalProperties: false, // ensure only the filed in the schema are allowed
+      }
+    },
+    validationAction: "error", // if validation failed then decide the operation should succeed or not
+    validationLevel: "strict"// decide when validation should apply to the document while insertion and updation
   }
 ];
 
