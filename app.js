@@ -74,6 +74,7 @@ app.use("/cart", cartRoutes)
 
 /* Global Error Middleware: */
 app.use((err, req, res, next) => {
+  console.log(err.message)
   console.log("Global Error Middleware", err);
   if (err.code === 11000) {
     return res.status(409).json({ success: false, error: "Email Already Exist" })
