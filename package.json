@@ -16,7 +16,7 @@
   "type": "module",
   "scripts": {
     "start": "node --no-deprecation app.js",
-    "setup": "node --env-file-if-exists=.env ./config/setup.js",
+    "setup": "node --env-file-if-exists=.env ./config/setup.js"
    },
   "keywords": [],
   "author": "",
