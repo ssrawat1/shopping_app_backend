@@ -45,7 +45,7 @@ app.use("/products", productRoutes)
 /*  */
 app.get(['/', '/health'], (req, res) => {
   return res.status(200).json({
-    service: 'Shopee API',
+    service: 'Shopee App API',
     status: 'ok',
     version: '1.0.0',
     timestamp: new Date().toISOString(),
