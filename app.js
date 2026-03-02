@@ -37,8 +37,6 @@ app.use(cookieParser(process.env.SESSION_SECRET))
 /* Enable Body JSON Parsing: */
 app.use(express.json())
 
-/* Handling Request Routes: */
-
 /* load products: */
 app.use("/products", productRoutes)
 
