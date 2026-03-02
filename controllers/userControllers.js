@@ -1,14 +1,17 @@
 import { Cart } from "../models/cartModel.js";
 import { Session } from "../models/sessionModel.js";
 import { User } from "../models/userModel.js";
+import sanitizeUserInput from "../sanitizer/sanitizeData.js";
 import { validateLoginSchema, validateRegisterSchema } from "../validators/validate.js";
 
 /* Handle User Register request and response */
 export const handleRegister = async (req, res, next) => {
   const userData = req.body;
   try {
+    /* Sanitizing User Data: */
+    const sanitizedData = sanitizeUserInput(userData);
     /* Validating User Data using Zod: */
-    const validatedData = validateRegisterSchema(userData)
+    const validatedData = validateRegisterSchema(sanitizedData)
     console.log({ validatedData })
     if (!validatedData.success) {
       return res.status(400).json(validatedData)
@@ -28,9 +31,8 @@ export const handleLogin = async (req, res, next) => {
   const data = req.body
   const { sid } = req.signedCookies
   try {
-    /* verify: */
-    const validatedData = validateLoginSchema(data)
-    console.log({ validatedData })
+    const sanitizedData = sanitizeUserInput(data)
+    const validatedData = validateLoginSchema(sanitizedData)
     if (!validatedData.success) {
       return res.status(400).json(validatedData)
     }
@@ -90,7 +92,7 @@ export const handleLogin = async (req, res, next) => {
 
     res.cookie("sid", session.id, {
       httpOnly: true,
-      sameSite:"lax",
+      sameSite: "lax",
       signed: true,
       secure: true,
       maxAge: 1000 * 60 * 60 * 24 * 7
