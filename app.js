@@ -61,7 +61,6 @@ app.use("/auth", authRoutes);
 /* Add to Cart API Specific Middleware: */
 app.use("/cart", cartRoutes)
 
-
 /* Global Error Middleware: */
 app.use((err, req, res, next) => {
   console.log("Global Error Middleware", err);
