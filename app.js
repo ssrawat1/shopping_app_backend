@@ -42,7 +42,6 @@ app.use(express.json())
 /* load products: */
 app.use("/products", productRoutes)
 
-/*  */
 app.get(['/', '/health'], (req, res) => {
   return res.status(200).json({
     service: 'Shopee App API',
