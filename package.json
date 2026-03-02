@@ -10,7 +10,7 @@
     "nodemailer": "^7.0.12",
     "zod": "^4.3.6"
   },
-  "name": "shop_server",
+  "name": "Shopee App Server",
   "version": "1.0.0",
   "main": "app.js",
   "type": "module",
