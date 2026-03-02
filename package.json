@@ -15,9 +15,9 @@
   "main": "app.js",
   "type": "module",
   "scripts": {
-     "start": "node --watch --env-file-if-exists=.env app.js",
+    "start": "node  app.js",
     "setup": "node --env-file-if-exists=.env ./config/setup.js",
-    "build":"node build.js"
+    "build": "node build.js"
   },
   "keywords": [],
   "author": "",
