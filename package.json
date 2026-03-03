@@ -10,12 +10,12 @@
     "nodemailer": "^7.0.12",
     "zod": "^4.3.6"
   },
-  "name": "Shopee App Server",
+  "name": "shopee server",
   "version": "1.0.0",
   "main": "app.js",
   "type": "module",
   "scripts": {
-    "start": "node --env-file=.env --no-deprecation app.js",
+    "start": "node --no-deprecation app.js",
     "setup": "node --env-file-if-exists=.env ./config/setup.js",
     "build":"npm install"
    },
