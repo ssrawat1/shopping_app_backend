@@ -19,6 +19,8 @@ await connectDb()
 /* loading products: */
 await loadProducts()
 
+const allowedOrigins = [process.env.CLIENT_URL];
+
 /* Security Headers: */
 app.use(
   helmet({
@@ -33,7 +35,6 @@ app.use(
 );
 
 /* Cors Enable: */
-const allowedOrigins = [process.env.CLIENT_URL];
 app.use(
   cors({
     origin: function (origin, callback) {
@@ -82,7 +83,7 @@ app.post(
   express.json({ type: ["application/csp-report", "application/json"] }),
   async (req, res) => {
     const violation = req.body;
-
+    console.log({ violation })
     try {
       CspViolationReport.push({
         timestamp: new Date().toISOString(),
