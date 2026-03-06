@@ -7,6 +7,10 @@ import loadProducts from "./seeds/products.js";
 import productRoutes from "./routes/productRoutes.js";
 import cookieParser from "cookie-parser";
 import cartRoutes from "./routes/cartRoutes.js";
+import helmet from "helmet"
+import CspViolationReport from "./cspViolationReport.json" with {type: "json"}
+import { writeFile } from "fs/promises"
+
 const app = express();
 
 /* First Connect With mongoDb server */
@@ -15,9 +19,21 @@ await connectDb()
 /* loading products: */
 await loadProducts()
 
+/* Security Headers: */
+app.use(
+  helmet({
+    crossOriginResourcePolicy: { policy: "same-site" },
+    contentSecurityPolicy: {
+      directives: {
+        reportUri: ["/csp-violation-report"],
+        frameAncestors: ["'self'", ...allowedOrigins],
+      },
+    }
+  })
+);
+
 /* Cors Enable: */
 const allowedOrigins = [process.env.CLIENT_URL];
-
 app.use(
   cors({
     origin: function (origin, callback) {
@@ -30,6 +46,7 @@ app.use(
     credentials: true,
   })
 );
+
 
 /* Cookie Parser: */
 app.use(cookieParser(process.env.SESSION_SECRET))
@@ -57,6 +74,34 @@ app.use("/auth", authRoutes);
 
 /* Add to Cart API Specific Middleware: */
 app.use("/cart", cartRoutes)
+
+
+/* CSP Violation */
+app.post(
+  "/csp-violation-report",
+  express.json({ type: ["application/csp-report", "application/json"] }),
+  async (req, res) => {
+    const violation = req.body;
+
+    try {
+      CspViolationReport.push({
+        timestamp: new Date().toISOString(),
+        report: violation
+      });
+
+      await writeFile(
+        "./cspViolationReport.json",
+        JSON.stringify(CspViolationReport, null, 2)
+      );
+
+      return res.status(204).end();
+    } catch (error) {
+      console.log("Error while writing CSP violation:", error);
+      return res.status(500).json({ error: "Failed to log CSP report" });
+    }
+  }
+);
+
 
 /* Global Error Middleware: */
 app.use((err, req, res, next) => {

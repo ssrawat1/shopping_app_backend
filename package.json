@@ -5,6 +5,7 @@
     "cors": "^2.8.5",
     "dompurify": "^3.3.1",
     "express": "^5.2.1",
+    "helmet": "^8.1.0",
     "jsdom": "^28.1.0",
     "mongoose": "^9.1.2",
     "resend": "^6.9.3",
@@ -15,7 +16,7 @@
   "main": "app.js",
   "type": "module",
   "scripts": {
-    "start": "node --no-deprecation app.js",
+    "start": "node --watch --env-file=.env --no-deprecation app.js",
     "setup": "node --env-file-if-exists=.env ./config/setup.js",
     "build": "npm install"
   },
