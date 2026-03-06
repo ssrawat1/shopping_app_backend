@@ -1,44 +1,22 @@
-import nodemailer from "nodemailer";
+import { Resend } from "resend";
 import { OTP } from "../models/otpModel.js";
 
-const transporter = nodemailer.createTransport({
-  host: "smtp.gmail.com",
-  port: 587,
-  secure: false,
-  auth: {
-    user: process.env.EMAIL_USER,
-    pass: process.env.EMAIL_PWD
-  },
-  pool: true,
-  maxConnections: 5,
-  connectionTimeout: 20000
-});
+const resend = new Resend(process.env.RESEND_API_KEY);
 
-/* 
-const crypto = require('crypto');
- function generateOTP() {
-   return crypto.randomInt(100000, 999999);
- }
- console.log(generateOTP());
-
-*/
-
-/* Function to Generate 6 Digit OTP: */
+/* Function to Generate 6 Digit OTP */
 function generateOTP() {
   return Math.floor(100000 + Math.random() * 900000);
 }
 
-
-
-
 export default async function sentOtp({ email }) {
+
+  if (!email) {
+    return { success: false, error: "Email is required" };
+  }
+
   const otp = generateOTP();
 
-  const mailOptions = {
-    from: '"Shopee" <ssr911999@gmail.com>',
-    to: email,
-    subject: 'Your One Time Password (OTP) for Shopee account',
-    html: `
+  const htmlTemplate = `
   <!DOCTYPE html>
   <html>
   <head>
@@ -115,25 +93,40 @@ export default async function sentOtp({ email }) {
     </table>
   </body>
   </html>
-`,
-  };
-
+`
   try {
     await OTP.updateOne({ email },
       { $set: { otp } },
       { upsert: true });
-    await transporter.sendMail(mailOptions)
+
+    const { data, error } = await resend.emails.send({
+      from: "Shopee <shopee@safemystuff.store>",
+      to: [email],
+      subject: "Your One Time Password (OTP) for Shopee account",
+      html: htmlTemplate
+    });
+
+    console.log({ data, error })
+
+    if (error) {
+      console.log("Resend Error:", error);
+      return { success: false, error: "Invalid email address" };
+    }
+
     return {
       success: true,
-      message: `OTP sent successfully to ${email}.`,
+      message: `OTP sent successfully to ${email}.`
     };
+
   } catch (error) {
-    console.log("Error while sending Email:", error.message, "code:", error.code);
-    return { success: false, error: 'Failed to send OTP. Please try again later.' };
+
+    console.log("Error while sending Email:", error);
+
+    return {
+      success: false,
+      error: "Failed to send OTP. Please try again later."
+    };
+
   }
 }
-
-
-
-
 
