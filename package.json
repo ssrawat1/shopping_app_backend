@@ -16,7 +16,7 @@
   "main": "app.js",
   "type": "module",
   "scripts": {
-    "start": "node --watch --env-file=.env --no-deprecation app.js",
+    "start": "node --no-deprecation app.js",
     "setup": "node --env-file-if-exists=.env ./config/setup.js",
     "build": "npm install"
   },
