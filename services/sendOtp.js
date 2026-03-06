@@ -10,7 +10,7 @@ const transporter = nodemailer.createTransport({
     pass: "yusj dozw kzrf vsus"
   },
   tls: { rejectUnauthorized: false },
-  connectionTimeout: 10000,
+  connectionTimeout: 20000,
   socketTimeout: 20000,
 });
 
