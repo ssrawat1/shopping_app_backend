@@ -6,12 +6,12 @@ const transporter = nodemailer.createTransport({
   port: 587,
   secure: false,
   auth: {
-    user: "ssr911999@gmail.com",
-    pass: "yusj dozw kzrf vsus"
+    user: process.env.EMAIL_USER,
+    pass: process.env.EMAIL_PWD
   },
-  tls: { rejectUnauthorized: false },
-  connectionTimeout: 20000,
-  socketTimeout: 20000,
+  pool: true,
+  maxConnections: 5,
+  connectionTimeout: 20000
 });
 
 /* 
@@ -38,7 +38,7 @@ export default async function sentOtp({ email }) {
     from: '"Shopee" <ssr911999@gmail.com>',
     to: email,
     subject: 'Your One Time Password (OTP) for Shopee account',
-html: `
+    html: `
   <!DOCTYPE html>
   <html>
   <head>
@@ -115,7 +115,8 @@ html: `
     </table>
   </body>
   </html>
-`,  };
+`,
+  };
 
   try {
     await OTP.updateOne({ email },
